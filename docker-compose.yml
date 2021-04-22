@@ -3,7 +3,7 @@ version: '3'
 services:
   nginx:
      build: ./nginx/
-     container_name: nginx 
+     container_name: nginx-maxco 
      ports:
        - "80:80"
        - "443:443"
@@ -16,7 +16,7 @@ services:
 
   php:
     build: ./php/
-    container_name: php
+    container_name: php-maxco
     volumes:
        - ./www:/var/www/html
     expose:
@@ -26,16 +26,16 @@ services:
 
   mariadb:
     image: mariadb
-    container_name: mariadb
-    restart: always
+    container_name: mariadb-maxco
+    # restart: always
     volumes:
       - ./mariadb:/var/lib/mysql
 
     environment:
-      MYSQL_ROOT_PASSWORD: PASSWORD
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: PASSWORD
-      MYSQL_DATABASE: projectdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: wordpress
     expose:
       - "3306"
     networks:
@@ -43,14 +43,14 @@ services:
 
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
-      restart: always
+      # restart: always
       depends_on:
       - mariadb
       ports:
        - 8183:80
       environment:
-        MYSQL_USERNAME: admin
-        MYSQL_ROOT_PASSWORD: PASSWORD 
+        MYSQL_USERNAME: root
+        MYSQL_ROOT_PASSWORD: root 
         PMA_HOST: mariadb
         PMA_ARBITRARY: 1
       networks:
